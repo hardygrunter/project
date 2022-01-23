@@ -24,6 +24,9 @@ const movieDB = {
     ]
 };
 
-const adv = document.querySelectorAll('.promo__adv img');
+const adv = document.querySelectorAll('.promo__adv img'),
+      genre = document.querySelector('.promo__genre');
 
 adv.forEach(img => img.remove());
+
+genre.textContent = 'драма';
