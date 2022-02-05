@@ -38,14 +38,14 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // Timer
-  const deadline = '2022-01-31';
+  const deadline = '2022-02-06';
 
   function getTimeRemaining(endTime) {
     const diff = Date.parse(endTime) - Date.now(),
-          days = Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours = Math.floor(diff / (1000 * 60 * 60) % 24),
-          minutes = Math.floor(diff / (1000 * 60) % 60),
-          seconds = Math.floor(diff / 1000 % 60);
+      days = Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours = Math.floor(diff / (1000 * 60 * 60) % 24),
+      minutes = Math.floor(diff / (1000 * 60) % 60),
+      seconds = Math.floor(diff / 1000 % 60);
 
     return {
       total: diff,
@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
       hours,
       minutes,
       seconds
-    }; 
+    };
   }
 
   function getZero(num) {
@@ -62,11 +62,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function setClock(selector, endTime) {
     const timer = document.querySelector(selector),
-          days = timer.querySelector('#days'),
-          hours = timer.querySelector('#hours'),
-          minutes = timer.querySelector('#minutes'),
-          seconds = timer.querySelector('#seconds'),
-          timeInterval = setInterval(updateClock, 1000);
+      days = timer.querySelector('#days'),
+      hours = timer.querySelector('#hours'),
+      minutes = timer.querySelector('#minutes'),
+      seconds = timer.querySelector('#seconds'),
+      timeInterval = setInterval(updateClock, 1000);
 
     updateClock();
 
@@ -85,4 +85,39 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   setClock('.timer', deadline);
+
+  // Modal
+  
+  const modal = document.querySelector('.modal'),
+        modalTriggers = document.querySelectorAll('[data-modal]'),
+        modalCloseBtn = document.querySelector('[data-close]');
+
+  modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      if (modal.classList.contains('show')) return;
+      modal.classList.add('show');
+      modal.classList.remove('hide');
+      document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  modalCloseBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target !== modal) return;
+    closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Escape' || !modal.classList.contains('show')) return;
+    closeModal();
+  });
+
+  function closeModal() {
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+    document.body.style.paddingRight = 0;
+    document.body.style.overflow = '';
+  }
 });
